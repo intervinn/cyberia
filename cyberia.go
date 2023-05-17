@@ -18,21 +18,6 @@ type App struct {
 	Handlers []Handler
 }
 
-type Context struct {
-	*fasthttp.RequestCtx
-	app *App
-}
-
-func (c *Context) JSON(v interface{}) error {
-	res, err := c.app.JSONMarshal(v)
-	if err != nil {
-		return err
-	}
-	c.Response.SetBodyRaw(res)
-	c.Response.Header.SetContentType("application/json")
-	return nil
-}
-
 func (a *App) handler(ctx *fasthttp.RequestCtx) {
 	c := Context{ctx, a}
 	for _, h := range a.Handlers {
