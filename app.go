@@ -6,8 +6,8 @@ import (
 )
 
 type App struct {
-	AppOpts
-	BaseRouter
+	*AppOpts
+	*BaseRouter
 }
 
 func (a *App) handler(ctx *fasthttp.RequestCtx) {
@@ -54,5 +54,5 @@ func New(opts ...AppOptFunc) *App {
 	for _, fn := range opts {
 		fn(&o)
 	}
-	return &App{AppOpts: o}
+	return &App{AppOpts: &o, BaseRouter: &BaseRouter{RouterOpts: defaultRouterOpts()}}
 }
