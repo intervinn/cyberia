@@ -8,7 +8,7 @@ type Context struct {
 }
 
 func (c *Context) JSON(v interface{}) error {
-	res, err := c.app.JSONMarshal(v)
+	res, err := c.app.jsonMarshal(v)
 	if err != nil {
 		return err
 	}
