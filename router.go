@@ -8,7 +8,7 @@ import (
 )
 
 func connectPaths(paths ...string) string {
-	return "/" + strings.Join(paths, "")
+	return strings.Join(paths, "")
 }
 
 type HandleFunc func(ctx *Context)
