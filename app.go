@@ -27,16 +27,25 @@ func (a *App) Listen(address string) {
 // constructor
 
 type AppOptFunc func(*AppOpts)
+type marshalFunc func(interface{}) ([]byte, error)
+type unmarshalFunc func([]byte, interface{}) error
 
 type AppOpts struct {
-	jsonMarshal   func(interface{}) ([]byte, error)
-	jsonUnmarshal func([]byte, interface{}) error
+	jsonMarshal   marshalFunc
+	jsonUnmarshal unmarshalFunc
 }
 
 func defaultAppOpts() AppOpts {
 	return AppOpts{
 		jsonMarshal:   sonic.Marshal,
 		jsonUnmarshal: sonic.Unmarshal,
+	}
+}
+
+func WithCustomJSON(marshal marshalFunc, unmarshal unmarshalFunc) AppOptFunc {
+	return func(o *AppOpts) {
+		o.jsonMarshal = marshal
+		o.jsonUnmarshal = unmarshal
 	}
 }
 

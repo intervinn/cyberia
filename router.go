@@ -1,6 +1,7 @@
 package cyberia
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/valyala/fasthttp"
@@ -40,8 +41,10 @@ func (b *BaseRouter) POST(path string, handle HandleFunc) {
 }
 
 func (b *BaseRouter) RegisterRouter(r *BaseRouter) {
+	fmt.Println("registering routes...")
 	for _, handler := range r.handlers {
 		path := connectPaths(b.prefix, r.prefix, handler.Path)
+		fmt.Println(path)
 		b.handlers = append(b.handlers, Handler{
 			Path:   path,
 			Method: handler.Method,
@@ -58,7 +61,7 @@ type RouterOptFunc func(*RouterOpts)
 
 func defaultRouterOpts() RouterOpts {
 	return RouterOpts{
-		prefix: "/",
+		prefix: "",
 	}
 }
 
