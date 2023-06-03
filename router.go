@@ -8,6 +8,14 @@ import (
 )
 
 func connectPaths(paths ...string) string {
+	for i, v := range paths {
+		if !strings.HasPrefix(v, "/") {
+			paths[i] = "/" + v
+		}
+		if paths[i] == "/" && paths[i+1] == "/" {
+			paths[i] = ""
+		}
+	}
 	return strings.Join(paths, "")
 }
 
@@ -44,7 +52,6 @@ func (b *BaseRouter) RegisterRouter(r *BaseRouter) {
 	fmt.Println("registering routes...")
 	for _, handler := range r.handlers {
 		path := connectPaths(b.prefix, r.prefix, handler.Path)
-		fmt.Println(path)
 		b.handlers = append(b.handlers, Handler{
 			Path:   path,
 			Method: handler.Method,
